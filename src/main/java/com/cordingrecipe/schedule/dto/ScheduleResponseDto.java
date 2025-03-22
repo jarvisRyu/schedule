@@ -3,28 +3,24 @@ package com.cordingrecipe.schedule.dto;
 import com.cordingrecipe.schedule.entity.Schedule;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import org.springframework.scheduling.annotation.Schedules;
 
-import java.util.Date;
 
 @Getter
 @AllArgsConstructor
 public class ScheduleResponseDto {
 
     private Long id;
-    private Date scheduledDate ;
     private String name;
+    private String scheduledDate ;
     private String todo;
-    private Date createDate;
-    private Date updateDate;
+//    private String createDate;
+//    private String updateDate;
 
-    public ScheduleResponseDto(Schedule schedule){
+
+    public ScheduleResponseDto(Schedule schedule) {
         this.id=schedule.getId();
-        this.scheduledDate=schedule.getScheduledDate();
-        this.createDate=schedule.getCreateDate();
-        this.updateDate=schedule.getUpdateDate();
         this.name=schedule.getName();
+        this.scheduledDate=schedule.getScheduledDate();
         this.todo=schedule.getTodo();
     }
-
 }

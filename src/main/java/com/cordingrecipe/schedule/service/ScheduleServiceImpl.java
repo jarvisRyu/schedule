@@ -1,10 +1,13 @@
 package com.cordingrecipe.schedule.service;
 
+import com.cordingrecipe.schedule.dto.ScheduleGetAllResponseDto;
 import com.cordingrecipe.schedule.dto.ScheduleRequestDto;
 import com.cordingrecipe.schedule.dto.ScheduleResponseDto;
 import com.cordingrecipe.schedule.entity.Schedule;
 import com.cordingrecipe.schedule.repository.ScheduleRepository;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service  //서비스 어노테이션
 public class ScheduleServiceImpl implements ScheduleService{
@@ -22,5 +25,11 @@ public class ScheduleServiceImpl implements ScheduleService{
         //이 값을 레파지토리로 전달.
 
         return scheduleRepository.saveSchedule(schedule);
+    }
+
+    @Override
+    public List<ScheduleResponseDto> findAllSchedule() {
+
+        return scheduleRepository.findAllSchedule();
     }
 }

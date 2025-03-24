@@ -1,7 +1,11 @@
 package com.cordingrecipe.schedule.dto;
 
 import com.cordingrecipe.schedule.entity.Schedule;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 
+@Getter
+@AllArgsConstructor
 public class ScheduleGetAllResponseDto {
     private Long id;
     private String scheduledDate;

@@ -50,19 +50,18 @@ public class JdbcTemplateScheduleRepository implements ScheduleRepository {
     }
     //일정 전체 조회
     @Override
-    public List<ScheduleResponseDto> findAllSchedule() {
+    public List<ScheduleGetAllResponseDto> findAllSchedule() {
         return jdbcTemplate.query("select id,schedule_date,name from schedule order by schedule_date ",scheduleRowMapper());
     }
 
-    private RowMapper<ScheduleResponseDto> scheduleRowMapper() {
-        return new RowMapper<ScheduleResponseDto>() {
+    private RowMapper<ScheduleGetAllResponseDto> scheduleRowMapper() {
+        return new RowMapper<ScheduleGetAllResponseDto>() {
             @Override
-            public ScheduleResponseDto mapRow(ResultSet rs, int rowNum) throws SQLException {
-                return new ScheduleResponseDto(
+            public ScheduleGetAllResponseDto mapRow(ResultSet rs, int rowNum) throws SQLException {
+                return new ScheduleGetAllResponseDto(
                         rs.getLong("id"),
                         rs.getString("schedule_date"),
-                        rs.getString("name"),
-                        rs.getString("todo")
+                        rs.getString("name")
                 );
             }
         };

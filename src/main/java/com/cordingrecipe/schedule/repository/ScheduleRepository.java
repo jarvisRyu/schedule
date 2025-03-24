@@ -10,6 +10,6 @@ public interface ScheduleRepository {
 
     ScheduleResponseDto saveSchedule(Schedule schedule);
 
-    List<ScheduleResponseDto> findAllSchedule();
+    List<ScheduleGetAllResponseDto> findAllSchedule();
 
 }

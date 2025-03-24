@@ -12,6 +12,6 @@ public interface ScheduleService {
     //CREATE 요청 저장
 
     //READ 조회
-    List<ScheduleResponseDto> findAllSchedule();
+    List<ScheduleGetAllResponseDto> findAllSchedule();
 
 }

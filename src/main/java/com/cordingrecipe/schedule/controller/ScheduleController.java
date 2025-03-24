@@ -30,7 +30,7 @@ public class ScheduleController {
 
 
     @GetMapping
-    public List<ScheduleResponseDto> findAllSchedule(){
+    public List<ScheduleGetAllResponseDto> findAllSchedule(){
         return scheduleService.findAllSchedule();
     }
 }

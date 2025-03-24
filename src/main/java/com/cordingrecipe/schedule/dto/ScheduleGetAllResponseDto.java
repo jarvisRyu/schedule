@@ -8,12 +8,12 @@ import lombok.Getter;
 @AllArgsConstructor
 public class ScheduleGetAllResponseDto {
     private Long id;
-    private String scheduledDate;
     private String name;
+    private String scheduledDate;
 
     public ScheduleGetAllResponseDto(Schedule schedule) {
         this.id = schedule.getId();
-        this.scheduledDate = schedule.getScheduledDate();
         this.name = schedule.getName();
+        this.scheduledDate = schedule.getScheduledDate();
     }
 }

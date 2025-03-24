@@ -20,6 +20,7 @@ public class ScheduleController {
         this.scheduleService=scheduleService;
     }
     //CRUD 담당 메서드 만들기
+    //일정생성
     @PostMapping
     public ResponseEntity<ScheduleResponseDto> createSchedule(@RequestBody ScheduleRequestDto dto){
         //Entity는 Map<key,value> 형태로 전달받을것임.               Json -> dto
@@ -28,9 +29,19 @@ public class ScheduleController {
         return new ResponseEntity<>(scheduleService.saveSchedule(dto), HttpStatus.CREATED);
     }
 
-
+    //일정 전체조회
     @GetMapping
     public List<ScheduleGetAllResponseDto> findAllSchedule(){
         return scheduleService.findAllSchedule();
     }
+
+    //일정 단건조회
+    @GetMapping("/{id}")
+    public ResponseEntity<ScheduleResponseDto> findScheduleById(@PathVariable Long id){
+
+        return new ResponseEntity<>(scheduleService.findScheduleById(id),HttpStatus.OK);
+
+    }
+
+
 }

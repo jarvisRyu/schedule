@@ -12,6 +12,10 @@ public interface ScheduleService {
     //CREATE 요청 저장
 
     //READ 조회
+    //전체
     List<ScheduleGetAllResponseDto> findAllSchedule();
+    //단건
+    ScheduleResponseDto findScheduleById(Long id);
+
 
 }

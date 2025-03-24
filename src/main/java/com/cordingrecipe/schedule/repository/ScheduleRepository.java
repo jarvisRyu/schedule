@@ -12,4 +12,10 @@ public interface ScheduleRepository {
 
     List<ScheduleGetAllResponseDto> findAllSchedule();
 
+//    Optional<ScheduleResponseDto> findScheduleById(Long id);
+
+    Schedule findScheduleByIdOrElseThrow(Long id);
+
+
+
 }

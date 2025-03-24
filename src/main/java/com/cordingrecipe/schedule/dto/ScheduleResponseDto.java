@@ -9,15 +9,15 @@ import lombok.Getter;
 @AllArgsConstructor
 public class ScheduleResponseDto {
     private Long id;
-    private String scheduledDate;
     private String name;
+    private String scheduledDate;
     private String todo;
 
 
     public ScheduleResponseDto(Schedule schedule) {
         this.id = schedule.getId();
-        this.scheduledDate = schedule.getScheduledDate();
         this.name = schedule.getName();
+        this.scheduledDate = schedule.getScheduledDate();
         this.todo = schedule.getTodo();
     }
 

@@ -3,11 +3,13 @@ package com.cordingrecipe.schedule.repository;
 import com.cordingrecipe.schedule.dto.ScheduleGetAllResponseDto;
 import com.cordingrecipe.schedule.dto.ScheduleResponseDto;
 import com.cordingrecipe.schedule.entity.Schedule;
+import org.springframework.http.HttpStatus;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.server.ResponseStatusException;
 
 import javax.sql.DataSource;
 import java.sql.ResultSet;
@@ -48,11 +50,28 @@ public class JdbcTemplateScheduleRepository implements ScheduleRepository {
         return new ScheduleResponseDto(key.longValue(), schedule.getName(), schedule.getScheduledDate(), schedule.getTodo());
 
     }
+
     //일정 전체 조회
     @Override
     public List<ScheduleGetAllResponseDto> findAllSchedule() {
-        return jdbcTemplate.query("select id,schedule_date,name from schedule order by schedule_date ",scheduleRowMapper());
+        return jdbcTemplate.query("select id,schedule_date,name from schedule order by schedule_date ", scheduleRowMapper());
     }
+    //일정 단건 조회
+//    @Override
+//    public Optional<ScheduleResponseDto> findScheduleById(Long id) {
+//        List<ScheduleResponseDto> result=jdbcTemplate.query("select * from schedule where id=? ",scheduleRowMapper2(),id);
+//        return result.stream().findAny();
+//    }
+    //단건 조회
+    @Override
+    public Schedule findScheduleByIdOrElseThrow(Long id) {
+        List<Schedule> result=jdbcTemplate.query("select * from schedule where id=? ",scheduleRowMapper2(),id);
+
+        return result.stream().findAny().orElseThrow(()->new ResponseStatusException(HttpStatus.NOT_FOUND,"Does not exist id ="+id));
+    }
+
+
+
 
     private RowMapper<ScheduleGetAllResponseDto> scheduleRowMapper() {
         return new RowMapper<ScheduleGetAllResponseDto>() {
@@ -60,12 +79,28 @@ public class JdbcTemplateScheduleRepository implements ScheduleRepository {
             public ScheduleGetAllResponseDto mapRow(ResultSet rs, int rowNum) throws SQLException {
                 return new ScheduleGetAllResponseDto(
                         rs.getLong("id"),
-                        rs.getString("schedule_date"),
-                        rs.getString("name")
+                        rs.getString("name"),
+                        rs.getString("schedule_date")
                 );
             }
         };
     }
 
+    private RowMapper<Schedule> scheduleRowMapper2() {
+        return new RowMapper<Schedule>() {
+            @Override
+            public Schedule mapRow(ResultSet rs, int rowNum) throws SQLException {
+                return new Schedule(
+                        rs.getLong("id"),
+                        rs.getString("name"),
+                        rs.getString("password"),
+                        rs.getString("schedule_date"),
+                        rs.getString("todo")
+                );
+            }
+        };
+    }
 }
+
+
 

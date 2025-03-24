@@ -55,8 +55,27 @@ public class JdbcTemplateScheduleRepository implements ScheduleRepository {
     //일정 전체 조회
     @Override
     public List<ScheduleGetAllResponseDto> findAllSchedule() {
-        return jdbcTemplate.query("select id,todo,name,DATE(created_date)as created_date,coalesce(updated_date,created_date)as updated_date from schedule order by created_date ", scheduleRowMapper());
+        return jdbcTemplate.query("select id,todo,name,created_date,coalesce(updated_date,created_date)as updated_date from schedule order by created_date ", scheduleRowMapper());
     }
+
+    @Override
+    public List<ScheduleGetAllResponseDto> findScheduleByNameAndDate(String name, String date) {
+        return jdbcTemplate.query("select id,todo,name,created_date,coalesce(updated_date,created_date)as updated_date from schedule where name=? AND updated_date=? ", scheduleRowMapper(),name,date);
+
+    }
+
+    @Override
+    public List<ScheduleGetAllResponseDto> findScheduleByName(String name) {
+        return jdbcTemplate.query("select id,todo,name,created_date,coalesce(updated_date,created_date)as updated_date from schedule where name=? ", scheduleRowMapper(),name);
+
+    }
+
+    @Override
+    public List<ScheduleGetAllResponseDto> findScheduleByDate(String date) {
+        return jdbcTemplate.query("select id,todo,name,created_date,coalesce(updated_date,created_date)as updated_date from schedule where updated_date=? order by created_date ", scheduleRowMapper(),date);
+
+    }
+
     //일정 단건 조회
 //    @Override
 //    public Optional<ScheduleResponseDto> findScheduleById(Long id) {
@@ -92,8 +111,8 @@ public class JdbcTemplateScheduleRepository implements ScheduleRepository {
                         rs.getLong("id"),
                         rs.getString("todo"),
                         rs.getString("name"),
-                        rs.getTimestamp("created_date"),
-                        rs.getTimestamp("updated_date")
+                        rs.getDate("created_date"),
+                        rs.getDate("updated_date")
                 );
             }
         };
@@ -108,8 +127,8 @@ public class JdbcTemplateScheduleRepository implements ScheduleRepository {
                         rs.getString("todo"),
                         rs.getString("name"),
                         rs.getString("password"),
-                        rs.getTimestamp("created_date"),
-                        rs.getTimestamp("updated_date")
+                        rs.getDate("created_date"),
+                        rs.getDate("updated_date")
                 );
             }
         };

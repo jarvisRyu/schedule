@@ -16,10 +16,25 @@ public interface ScheduleService {
     //READ 조회
     //전체
     List<ScheduleGetAllResponseDto> findAllSchedule();
+    //이름,날짜로 조회하기
+    List<ScheduleGetAllResponseDto>findScheduleByNameAndDate(String name,String date);
+    //이름으로 조회하기
+    List<ScheduleGetAllResponseDto>findScheduleByName(String name);
+    //날짜로 조회하기
+    List<ScheduleGetAllResponseDto>findScheduleByDate(String date);
+
+
+
+
+
     //단건
     ScheduleGetIdResponseDto findScheduleById(Long id);
+
+    //UPDATE
     //일정 수정
     ScheduleGetIdResponseDto updateSchedule(Long id ,ScheduleRequestDto dto);
+
+    //DELETE
     //일정 삭제
     void deleteSchedule(Long id, ScheduleDeleteRequestDto dto);
 

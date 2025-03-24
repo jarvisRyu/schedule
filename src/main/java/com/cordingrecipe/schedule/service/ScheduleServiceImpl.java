@@ -34,11 +34,29 @@ public class ScheduleServiceImpl implements ScheduleService {
         return scheduleRepository.saveSchedule(schedule);
     }
 
+
+
     //전체조회
-    @Override
+    @Override  //이름 또는 날짜 가있으면 다르게 로직
     public List<ScheduleGetAllResponseDto> findAllSchedule() {
 
         return scheduleRepository.findAllSchedule();
+    }
+    //이름,날짜로 조회하기
+    @Override
+    public List<ScheduleGetAllResponseDto> findScheduleByNameAndDate(String name, String date) {
+
+        return scheduleRepository.findScheduleByNameAndDate(name,date);
+    }
+    //이름으로 조회하기
+    @Override
+    public List<ScheduleGetAllResponseDto> findScheduleByName(String name) {
+        return scheduleRepository.findScheduleByName(name);
+    }
+    //날짜로 조회하기
+    @Override
+    public List<ScheduleGetAllResponseDto> findScheduleByDate(String date) {
+        return scheduleRepository.findScheduleByDate(date);
     }
 
     //단건조회
@@ -54,6 +72,7 @@ public class ScheduleServiceImpl implements ScheduleService {
     public ScheduleGetIdResponseDto updateSchedule(Long id, ScheduleRequestDto dto) {
         if (dto.getPassword() == null || dto.getName() == null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Writer and password are required.");
+            //비밀번호,이름이 입력되지않으면 오류발생
         }
         //작성자,비밀번호가 null 이면
         String password = scheduleRepository.findScheduleByIdOrElseThrow(id).getPassword();

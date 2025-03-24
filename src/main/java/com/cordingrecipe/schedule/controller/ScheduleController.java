@@ -17,14 +17,16 @@ import java.util.List;
 public class ScheduleController {
     //속성
     private final ScheduleService scheduleService; //서비스 의존 객체 생성
+
     //생성자
-    public ScheduleController(ScheduleService scheduleService){ //서비스를 참조할 수 있게 생성자 만들기
-        this.scheduleService=scheduleService;
+    public ScheduleController(ScheduleService scheduleService) { //서비스를 참조할 수 있게 생성자 만들기
+        this.scheduleService = scheduleService;
     }
+
     //CRUD 담당 메서드 만들기
     //일정생성
     @PostMapping
-    public ResponseEntity<ScheduleResponseDto> createSchedule(@RequestBody ScheduleRequestDto dto){
+    public ResponseEntity<ScheduleResponseDto> createSchedule(@RequestBody ScheduleRequestDto dto) {
         //Entity는 Map<key,value> 형태로 전달받을것임.               Json -> dto
 
         //Json -> Dto
@@ -32,37 +34,46 @@ public class ScheduleController {
     }
 
     //일정 전체조회
-    @GetMapping("/schedule")  //전체 ,이름,날짜 로 조회하게
+    @GetMapping  //전체 ,이름,날짜 로 조회하게
     public List<ScheduleGetAllResponseDto> findAllSchedule(
-            @RequestParam(name="type",required = false)String type)
-    {
-        return scheduleService.findAllSchedule();
+            @RequestParam(required = false) String name,
+            @RequestParam(required = false) String updatedDate) {
+        if (name != null && updatedDate != null) {
+            return scheduleService.findScheduleByNameAndDate(name, updatedDate);
+        } else if
+        (name != null) {
+            return scheduleService.findScheduleByName(name);
+        } else if (updatedDate != null) {
+            return scheduleService.findScheduleByDate(updatedDate);
+        } else {
+            return scheduleService.findAllSchedule(); //}
+        }
     }
 
     //일정 단건조회
     @GetMapping("/{id}")
-    public ResponseEntity<ScheduleGetIdResponseDto> findScheduleById(@PathVariable Long id){
+    public ResponseEntity<ScheduleGetIdResponseDto> findScheduleById(@PathVariable Long id) {
 
-        return new ResponseEntity<>(scheduleService.findScheduleById(id),HttpStatus.OK);
+        return new ResponseEntity<>(scheduleService.findScheduleById(id), HttpStatus.OK);
 
     }
-    
+
     //일정수정
     @PatchMapping("/{id}")
-    public ResponseEntity<ScheduleGetIdResponseDto> updateSchedule(@PathVariable Long id, @RequestBody ScheduleRequestDto dto){
+    public ResponseEntity<ScheduleGetIdResponseDto> updateSchedule(@PathVariable Long
+                                                                           id, @RequestBody ScheduleRequestDto dto) {
 
-        return new ResponseEntity<>(scheduleService.updateSchedule(id,dto),HttpStatus.OK);
+        return new ResponseEntity<>(scheduleService.updateSchedule(id, dto), HttpStatus.OK);
     }
 
     //일정삭제
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteSchedule(@PathVariable Long id, @RequestBody ScheduleDeleteRequestDto dto){
-        scheduleService.deleteSchedule(id,dto);
+    public ResponseEntity<Void> deleteSchedule(@PathVariable Long id, @RequestBody ScheduleDeleteRequestDto dto) {
+        scheduleService.deleteSchedule(id, dto);
 
         return new ResponseEntity<>(HttpStatus.OK);
 
     }
-
 
 
 }

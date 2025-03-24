@@ -7,6 +7,7 @@ import org.springframework.data.relational.core.mapping.Column;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 
 @Getter
@@ -17,8 +18,8 @@ public class Schedule {
     private String todo;
     private String name;
     private String password;
-    private Timestamp  createdDate;
-    private Timestamp  updatedDate;
+    private Date createdDate;
+    private Date  updatedDate;
 
 
 

@@ -18,7 +18,10 @@ public class ScheduleGetAllResponseDto {
 
     public ScheduleGetAllResponseDto(Schedule schedule) {
         this.id = schedule.getId();
-        this.createdDate = schedule.getCreatedDate();
+        this.todo=  schedule.getTodo();
         this.name = schedule.getName();
+        this.createdDate = schedule.getCreatedDate();
+        this.updatedDate=schedule.getUpdatedDate();
+
     }
 }

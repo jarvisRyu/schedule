@@ -60,7 +60,7 @@ public class JdbcTemplateScheduleRepository implements ScheduleRepository {
 
     @Override
     public List<ScheduleGetAllResponseDto> findScheduleByNameAndDate(String name, String date) {
-        return jdbcTemplate.query("select id,todo,name,created_date,coalesce(updated_date,created_date)as updated_date from schedule where name=? AND updated_date=? ", scheduleRowMapper(),name,date);
+        return jdbcTemplate.query("select id,todo,name,created_date,coalesce(updated_date,created_date)as updated_date from schedule where name=? AND DATE(updated_date)=? ", scheduleRowMapper(),name,date);
 
     }
 
@@ -72,7 +72,7 @@ public class JdbcTemplateScheduleRepository implements ScheduleRepository {
 
     @Override
     public List<ScheduleGetAllResponseDto> findScheduleByDate(String date) {
-        return jdbcTemplate.query("select id,todo,name,created_date,coalesce(updated_date,created_date)as updated_date from schedule where updated_date=? order by created_date ", scheduleRowMapper(),date);
+            return jdbcTemplate.query("select id,todo,name,created_date,coalesce(updated_date,created_date)as updated_date from schedule where DATE(updated_date) = ? order by created_date ", scheduleRowMapper(),date);
 
     }
 

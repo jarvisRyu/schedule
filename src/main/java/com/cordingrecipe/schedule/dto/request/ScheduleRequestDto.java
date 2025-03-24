@@ -1,4 +1,4 @@
-package com.cordingrecipe.schedule.dto;
+package com.cordingrecipe.schedule.dto.request;
 
 import lombok.Getter;
 
@@ -6,8 +6,7 @@ import lombok.Getter;
 @Getter
 public class ScheduleRequestDto {
 
+    private String todo;
     private String name;
     private String password;
-    private String scheduledDate ;
-    private String todo;
 }

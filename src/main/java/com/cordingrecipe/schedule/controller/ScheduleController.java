@@ -1,8 +1,10 @@
 package com.cordingrecipe.schedule.controller;
 
-import com.cordingrecipe.schedule.dto.ScheduleGetAllResponseDto;
-import com.cordingrecipe.schedule.dto.ScheduleRequestDto;
-import com.cordingrecipe.schedule.dto.ScheduleResponseDto;
+import com.cordingrecipe.schedule.dto.request.ScheduleDeleteRequestDto;
+import com.cordingrecipe.schedule.dto.response.ScheduleGetAllResponseDto;
+import com.cordingrecipe.schedule.dto.request.ScheduleRequestDto;
+import com.cordingrecipe.schedule.dto.response.ScheduleGetIdResponseDto;
+import com.cordingrecipe.schedule.dto.response.ScheduleResponseDto;
 import com.cordingrecipe.schedule.service.ScheduleService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -37,11 +39,28 @@ public class ScheduleController {
 
     //일정 단건조회
     @GetMapping("/{id}")
-    public ResponseEntity<ScheduleResponseDto> findScheduleById(@PathVariable Long id){
+    public ResponseEntity<ScheduleGetIdResponseDto> findScheduleById(@PathVariable Long id){
 
         return new ResponseEntity<>(scheduleService.findScheduleById(id),HttpStatus.OK);
 
     }
+    
+    //일정수정
+    @PatchMapping("/{id}")
+    public ResponseEntity<ScheduleGetIdResponseDto> updateSchedule(@PathVariable Long id, @RequestBody ScheduleRequestDto dto){
+
+        return new ResponseEntity<>(scheduleService.updateSchedule(id,dto),HttpStatus.OK);
+    }
+
+    //일정삭제
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteSchedule(@PathVariable Long id, @RequestParam ScheduleDeleteRequestDto dto){
+        scheduleService.deleteSchedule(id,dto);
+
+        return new ResponseEntity<>(HttpStatus.OK);
+
+    }
+
 
 
 }

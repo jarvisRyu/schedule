@@ -1,7 +1,9 @@
 package com.cordingrecipe.schedule.repository;
 
-import com.cordingrecipe.schedule.dto.ScheduleGetAllResponseDto;
-import com.cordingrecipe.schedule.dto.ScheduleResponseDto;
+import com.cordingrecipe.schedule.dto.request.ScheduleDeleteRequestDto;
+import com.cordingrecipe.schedule.dto.request.ScheduleRequestDto;
+import com.cordingrecipe.schedule.dto.response.ScheduleGetAllResponseDto;
+import com.cordingrecipe.schedule.dto.response.ScheduleResponseDto;
 import com.cordingrecipe.schedule.entity.Schedule;
 import org.springframework.http.HttpStatus;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -39,22 +41,21 @@ public class JdbcTemplateScheduleRepository implements ScheduleRepository {
 
         //데이터 베이스 테이블에 값 저장하기
         Map<String, Object> parameters = new HashMap<>();
-        parameters.put("name", schedule.getName());
-        parameters.put("schedule_date", schedule.getScheduledDate());
-        parameters.put("password", schedule.getPassword());
         parameters.put("todo", schedule.getTodo());
+        parameters.put("name", schedule.getName());
+          parameters.put("password", schedule.getPassword());
 
         //저장 후 생성된 key 값 Number 타입으로 반환하는 메서드
         Number key = jdbcInsert.executeAndReturnKey(new MapSqlParameterSource(parameters));
 
-        return new ScheduleResponseDto(key.longValue(), schedule.getName(), schedule.getScheduledDate(), schedule.getTodo());
+        return new ScheduleResponseDto(key.longValue(),schedule.getTodo(),schedule.getName(),schedule.getCreatedDate());
 
     }
 
     //일정 전체 조회
     @Override
     public List<ScheduleGetAllResponseDto> findAllSchedule() {
-        return jdbcTemplate.query("select id,schedule_date,name from schedule order by schedule_date ", scheduleRowMapper());
+        return jdbcTemplate.query("select id,created_date,name from schedule order by created_date ", scheduleRowMapper());
     }
     //일정 단건 조회
 //    @Override
@@ -69,6 +70,16 @@ public class JdbcTemplateScheduleRepository implements ScheduleRepository {
 
         return result.stream().findAny().orElseThrow(()->new ResponseStatusException(HttpStatus.NOT_FOUND,"Does not exist id ="+id));
     }
+    //일정 수정
+    @Override
+    public int updateSchedule(Long id, ScheduleRequestDto dto) {
+        return jdbcTemplate.update("update schedule set todo =?,name=? where id =?",dto.getTodo(),dto.getName(),id);
+    }
+
+    @Override
+    public int deleteSchedule(Long id) {
+        return jdbcTemplate.update("delete from schedule where id=?",id);
+    }
 
 
 
@@ -79,8 +90,8 @@ public class JdbcTemplateScheduleRepository implements ScheduleRepository {
             public ScheduleGetAllResponseDto mapRow(ResultSet rs, int rowNum) throws SQLException {
                 return new ScheduleGetAllResponseDto(
                         rs.getLong("id"),
-                        rs.getString("name"),
-                        rs.getString("schedule_date")
+                        rs.getTimestamp("created_date"),
+                        rs.getString("name")
                 );
             }
         };
@@ -92,10 +103,11 @@ public class JdbcTemplateScheduleRepository implements ScheduleRepository {
             public Schedule mapRow(ResultSet rs, int rowNum) throws SQLException {
                 return new Schedule(
                         rs.getLong("id"),
+                        rs.getString("todo"),
                         rs.getString("name"),
                         rs.getString("password"),
-                        rs.getString("schedule_date"),
-                        rs.getString("todo")
+                        rs.getTimestamp("created_date"),
+                        rs.getTimestamp("updated_date")
                 );
             }
         };

@@ -32,8 +32,10 @@ public class ScheduleController {
     }
 
     //일정 전체조회
-    @GetMapping
-    public List<ScheduleGetAllResponseDto> findAllSchedule(){
+    @GetMapping("/schedule")  //전체 ,이름,날짜 로 조회하게
+    public List<ScheduleGetAllResponseDto> findAllSchedule(
+            @RequestParam(name="type",required = false)String type)
+    {
         return scheduleService.findAllSchedule();
     }
 
@@ -54,7 +56,7 @@ public class ScheduleController {
 
     //일정삭제
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteSchedule(@PathVariable Long id, @RequestParam ScheduleDeleteRequestDto dto){
+    public ResponseEntity<Void> deleteSchedule(@PathVariable Long id, @RequestBody ScheduleDeleteRequestDto dto){
         scheduleService.deleteSchedule(id,dto);
 
         return new ResponseEntity<>(HttpStatus.OK);

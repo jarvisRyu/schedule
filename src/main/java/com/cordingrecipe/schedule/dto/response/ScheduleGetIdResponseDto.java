@@ -12,7 +12,7 @@ public class ScheduleGetIdResponseDto {
     private Long id;
     private String todo;
     private String name;
-    private Timestamp createdDate;
+//    private Timestamp createdDate;
     private Timestamp updatedDate;
 
 
@@ -20,7 +20,7 @@ public class ScheduleGetIdResponseDto {
         this.id = schedule.getId();
         this.todo = schedule.getTodo();
         this.name = schedule.getName();
-        this.createdDate = schedule.getCreatedDate();
+//        this.createdDate = schedule.getCreatedDate();
         this.updatedDate = schedule.getUpdatedDate();
 
     }

@@ -55,7 +55,7 @@ public class JdbcTemplateScheduleRepository implements ScheduleRepository {
     //일정 전체 조회
     @Override
     public List<ScheduleGetAllResponseDto> findAllSchedule() {
-        return jdbcTemplate.query("select id,created_date,name from schedule order by created_date ", scheduleRowMapper());
+        return jdbcTemplate.query("select id,todo,name,DATE(created_date)as created_date,coalesce(updated_date,created_date)as updated_date from schedule order by created_date ", scheduleRowMapper());
     }
     //일정 단건 조회
 //    @Override
@@ -90,8 +90,10 @@ public class JdbcTemplateScheduleRepository implements ScheduleRepository {
             public ScheduleGetAllResponseDto mapRow(ResultSet rs, int rowNum) throws SQLException {
                 return new ScheduleGetAllResponseDto(
                         rs.getLong("id"),
+                        rs.getString("todo"),
+                        rs.getString("name"),
                         rs.getTimestamp("created_date"),
-                        rs.getString("name")
+                        rs.getTimestamp("updated_date")
                 );
             }
         };

@@ -10,8 +10,10 @@ import java.sql.Timestamp;
 @AllArgsConstructor
 public class ScheduleGetAllResponseDto {
     private Long id;
-    private Timestamp created_date;
+    private String todo;
     private String name;
+    private Timestamp  createdDate;
+    private Timestamp  updatedDate;
 
 //    public ScheduleGetAllResponseDto(Schedule schedule) {
 //        this.id = schedule.getId();

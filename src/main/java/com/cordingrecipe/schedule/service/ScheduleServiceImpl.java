@@ -76,11 +76,14 @@ public class ScheduleServiceImpl implements ScheduleService {
     public void deleteSchedule(Long id, ScheduleDeleteRequestDto dto) {
 
         String password = scheduleRepository.findScheduleByIdOrElseThrow(id).getPassword();
-        if (dto.getPassword().equals(password)) {
-            int deleteRow = scheduleRepository.deleteSchedule(id);
-            if (deleteRow == 0) {
-                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Does not exist");
-            }
+        //id의 패스워드
+
+        if (!dto.getPassword().equals(password)) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Does not exist");
+        }
+        int deleteRow = scheduleRepository.deleteSchedule(id);
+        if (deleteRow == 0) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "일정이 존재 하지 않습니다.");
         }
     }
 }

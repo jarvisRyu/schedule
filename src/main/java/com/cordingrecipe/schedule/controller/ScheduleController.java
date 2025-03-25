@@ -8,12 +8,14 @@ import com.cordingrecipe.schedule.service.ScheduleService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import jakarta.validation.Valid;
 
 import java.util.List;
-
 @RestController  //컨트롤러 어노테이션
 @RequestMapping("/schedules")
+@Validated
 public class ScheduleController {
     //속성
     private final ScheduleService scheduleService; //서비스 의존 객체 생성
@@ -25,7 +27,7 @@ public class ScheduleController {
     //CRUD 담당 메서드 만들기
     //일정생성
     @PostMapping
-    public ResponseEntity<ScheduleResponseDto> createSchedule(@RequestBody ScheduleRequestDto dto) {
+    public ResponseEntity<ScheduleResponseDto> createSchedule(@Valid @RequestBody ScheduleRequestDto dto) {
         //Entity는 Map<key,value> 형태로 전달받을것임.               Json -> dto
         //Json -> Dto
         return new ResponseEntity<>(scheduleService.saveSchedule(dto), HttpStatus.CREATED);
@@ -54,7 +56,7 @@ public class ScheduleController {
         return new ResponseEntity<>(scheduleService.findScheduleById(id), HttpStatus.OK);
     }
 
-    //일정수정
+    //일정수정ㅋ
     @Transactional
     @PatchMapping("/{id}")
     public ResponseEntity<ScheduleGetIdResponseDto> updateSchedule(@PathVariable Long id,
@@ -64,10 +66,10 @@ public class ScheduleController {
 
     //일정삭제
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteSchedule(@PathVariable Long id,
-                                               @RequestBody ScheduleRequestDto dto) {
+    public ResponseEntity<String> deleteSchedule(@PathVariable Long id,
+                                                 @RequestBody ScheduleRequestDto dto) {
         scheduleService.deleteSchedule(id, dto);
-        return new ResponseEntity<>(HttpStatus.OK);
+        return ResponseEntity.ok("삭제가 완료되었습니다.");
 
     }
 

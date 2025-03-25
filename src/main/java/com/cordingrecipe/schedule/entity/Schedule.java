@@ -2,6 +2,7 @@ package com.cordingrecipe.schedule.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import org.springframework.data.annotation.Id;
 
 import java.util.Date;
 
@@ -10,6 +11,7 @@ import java.util.Date;
 @AllArgsConstructor
 public class Schedule {
     //DB 데이터가 담길 entity
+    @Id
     private Long id;
     private String todo;
     private String name;

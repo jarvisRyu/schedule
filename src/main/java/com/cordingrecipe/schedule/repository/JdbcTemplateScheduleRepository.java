@@ -39,39 +39,45 @@ public class JdbcTemplateScheduleRepository implements ScheduleRepository {
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("todo", schedule.getTodo());
         parameters.put("name", schedule.getName());
-          parameters.put("password", schedule.getPassword());
+        parameters.put("password", schedule.getPassword());
 
         //저장 후 생성된 key 값 Number 타입으로 반환하는 메서드
         Number key = jdbcInsert.executeAndReturnKey(new MapSqlParameterSource(parameters));
 
-        return new ScheduleResponseDto(key.longValue(),schedule.getTodo(),schedule.getName(),schedule.getCreatedDate());
+        Schedule scheduleByIdOrElseThrow = findScheduleByIdOrElseThrow(key.longValue());
+        //데이터베이스 저장된 값을 꺼내옴.(key)
 
+        return new ScheduleResponseDto(scheduleByIdOrElseThrow);
     }
-
+    String query = "select id,todo,name,created_date,coalesce(updated_date,created_date)as updated_date from schedule";
     //일정 전체 조회
     @Override
     public List<ScheduleGetAllResponseDto> findAllSchedule() {
-        return jdbcTemplate.query("select id,todo,name,created_date,coalesce(updated_date,created_date)as updated_date from schedule order by updated_date ", scheduleRowMapper());
+
+        return jdbcTemplate.query(query+" order by created_date ", scheduleRowMapper());
     }
     //이름,날짜조회
     @Override
     public List<ScheduleGetAllResponseDto> findScheduleByNameAndDate(String name, String date) {
-        return jdbcTemplate.query("select id,todo,name,created_date,coalesce(updated_date,created_date)as updated_date from schedule where name=? AND DATE(updated_date)=? ", scheduleRowMapper(),name,date);
+
+        return jdbcTemplate.query(query+" where name=? AND created_date=? order by created_date ", scheduleRowMapper(),name,date);
     }
     //이름으로 조회
     @Override
     public List<ScheduleGetAllResponseDto> findScheduleByName(String name) {
-        return jdbcTemplate.query("select id,todo,name,created_date,coalesce(updated_date,created_date)as updated_date from schedule where name=? order by updated_date  ", scheduleRowMapper(),name);
+
+        return jdbcTemplate.query(query+" where name=? order by created_date  ", scheduleRowMapper(),name);
     }
     //날짜로 조회
     @Override
     public List<ScheduleGetAllResponseDto> findScheduleByDate(String date) {
-        return jdbcTemplate.query("select id,todo,name,created_date,coalesce(updated_date,created_date)as updated_date from schedule where DATE(updated_date) = ? order by updated_date ", scheduleRowMapper(),date);
+
+        return jdbcTemplate.query(query+" where created_date = ? order by created_date ", scheduleRowMapper(),date);
     }
 
     //일정 단건 조회
     @Override
-    public Schedule findScheduleByIdOrElseThrow(Long id) {
+        public Schedule findScheduleByIdOrElseThrow(Long id) {
         List<Schedule> result=jdbcTemplate.query("select * from schedule where id=? ",scheduleRowMapper2(),id);
 
         return result.stream().findAny().orElseThrow(()->new ResponseStatusException(HttpStatus.NOT_FOUND,"Does not exist id ="+id));

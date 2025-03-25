@@ -33,24 +33,26 @@ public class ScheduleServiceImpl implements ScheduleService {
     }
 
 
-
     //전체 조회
     @Override  //이름 또는 날짜 가있으면 다르게 로직
     public List<ScheduleGetAllResponseDto> findAllSchedule() {
 
         return scheduleRepository.findAllSchedule();
     }
+
     //이름,날짜로 조회하기
     @Override
     public List<ScheduleGetAllResponseDto> findScheduleByNameAndDate(String name, String date) {
 
-        return scheduleRepository.findScheduleByNameAndDate(name,date);
+        return scheduleRepository.findScheduleByNameAndDate(name, date);
     }
+
     //이름으로 조회하기
     @Override
     public List<ScheduleGetAllResponseDto> findScheduleByName(String name) {
         return scheduleRepository.findScheduleByName(name);
     }
+
     //날짜로 조회하기
     @Override
     public List<ScheduleGetAllResponseDto> findScheduleByDate(String date) {
@@ -75,7 +77,6 @@ public class ScheduleServiceImpl implements ScheduleService {
         //작성자,비밀번호가 null 이면
         String password = scheduleRepository.findScheduleByIdOrElseThrow(id).getPassword();
         //DB  id 의 password 가져오기
-
         Schedule schedule = null;
         if (dto.getPassword().equals(password)) { //비밀번호 비교
             int updatedRow = scheduleRepository.updateSchedule(id, dto);
@@ -83,7 +84,6 @@ public class ScheduleServiceImpl implements ScheduleService {
                 throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Does not exist");
             }
             schedule = scheduleRepository.findScheduleByIdOrElseThrow(id);
-
         }
         return new ScheduleGetIdResponseDto(schedule);
     }
@@ -91,16 +91,16 @@ public class ScheduleServiceImpl implements ScheduleService {
     //일정 삭제
     @Override
     public void deleteSchedule(Long id, ScheduleRequestDto dto) {
-
         String password = scheduleRepository.findScheduleByIdOrElseThrow(id).getPassword();
         //id의 패스워드
 
         if (!dto.getPassword().equals(password)) {
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Does not exist");
-        }
-        int deleteRow = scheduleRepository.deleteSchedule(id);
-        if (deleteRow == 0) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "일정이 존재 하지 않습니다.");
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
+        } else {
+            int deleteRow = scheduleRepository.deleteSchedule(id);
+            if (deleteRow == id) {
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "일정이 존재 하지 않습니다.");
+            }
         }
     }
 }

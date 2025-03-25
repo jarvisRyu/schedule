@@ -15,6 +15,9 @@ import org.springframework.web.server.ResponseStatusException;
 import javax.sql.DataSource;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -40,6 +43,7 @@ public class JdbcTemplateScheduleRepository implements ScheduleRepository {
         parameters.put("todo", schedule.getTodo());
         parameters.put("name", schedule.getName());
         parameters.put("password", schedule.getPassword());
+        parameters.put("created_date",LocalDateTime.now());
 
         //저장 후 생성된 key 값 Number 타입으로 반환하는 메서드
         Number key = jdbcInsert.executeAndReturnKey(new MapSqlParameterSource(parameters));
@@ -49,7 +53,10 @@ public class JdbcTemplateScheduleRepository implements ScheduleRepository {
 
         return new ScheduleResponseDto(scheduleByIdOrElseThrow);
     }
-    String query = "select id,todo,name,created_date,coalesce(updated_date,created_date)as updated_date from schedule";
+
+
+
+    String query = "select id,todo,name,created_date,coalesce(updated_date,0)as updated_date from schedule";
     //일정 전체 조회
     @Override
     public List<ScheduleGetAllResponseDto> findAllSchedule() {
@@ -60,7 +67,7 @@ public class JdbcTemplateScheduleRepository implements ScheduleRepository {
     @Override
     public List<ScheduleGetAllResponseDto> findScheduleByNameAndDate(String name, String date) {
 
-        return jdbcTemplate.query(query+" where name=? AND created_date=? order by created_date ", scheduleRowMapper(),name,date);
+        return jdbcTemplate.query(query+" where name=? AND substring(created_date,1,10)=? order by created_date ", scheduleRowMapper(),name,date);
     }
     //이름으로 조회
     @Override
@@ -72,7 +79,7 @@ public class JdbcTemplateScheduleRepository implements ScheduleRepository {
     @Override
     public List<ScheduleGetAllResponseDto> findScheduleByDate(String date) {
 
-        return jdbcTemplate.query(query+" where created_date = ? order by created_date ", scheduleRowMapper(),date);
+        return jdbcTemplate.query(query+" where substring(created_date,1,10) = ? order by created_date ", scheduleRowMapper(),date);
     }
 
     //일정 단건 조회
@@ -104,8 +111,8 @@ public class JdbcTemplateScheduleRepository implements ScheduleRepository {
                         rs.getLong("id"),
                         rs.getString("todo"),
                         rs.getString("name"),
-                        rs.getDate("created_date"),
-                        rs.getDate("updated_date")
+                        rs.getString("created_date"),
+                        rs.getString("updated_date")
                 );
             }
         };
@@ -120,8 +127,8 @@ public class JdbcTemplateScheduleRepository implements ScheduleRepository {
                         rs.getString("todo"),
                         rs.getString("name"),
                         rs.getString("password"),
-                        rs.getDate("created_date"),
-                        rs.getDate("updated_date")
+                        rs.getString("created_date"),
+                        rs.getString("updated_date")
                 );
             }
         };

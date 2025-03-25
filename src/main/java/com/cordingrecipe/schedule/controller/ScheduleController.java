@@ -37,14 +37,15 @@ public class ScheduleController {
     @GetMapping  //전체 ,이름,날짜 로 조회하게
     public List<ScheduleGetAllResponseDto> findAllSchedule(
             @RequestParam(required = false) String name,
-            @RequestParam(required = false) String updatedDate) {
-        if (name != null && updatedDate != null) {
-            return scheduleService.findScheduleByNameAndDate(name, updatedDate);
+            @RequestParam(value = "createdDate",required = false) String date) {
+
+        if (name != null && date != null) {
+            return scheduleService.findScheduleByNameAndDate(name, date);
         } else if
         (name != null) {
             return scheduleService.findScheduleByName(name);
-        } else if (updatedDate != null) {
-            return scheduleService.findScheduleByDate(updatedDate);
+        } else if (date != null) {
+            return scheduleService.findScheduleByDate(date);
         } else {
             return scheduleService.findAllSchedule(); //}
         }
@@ -56,7 +57,7 @@ public class ScheduleController {
         return new ResponseEntity<>(scheduleService.findScheduleById(id), HttpStatus.OK);
     }
 
-    //일정수정ㅋ
+    //일정수정
     @Transactional
     @PatchMapping("/{id}")
     public ResponseEntity<ScheduleGetIdResponseDto> updateSchedule(@PathVariable Long id,

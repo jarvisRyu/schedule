@@ -78,11 +78,11 @@ public class ScheduleServiceImpl implements ScheduleService {
         String password = scheduleRepository.findScheduleByIdOrElseThrow(id).getPassword();
         //DB  id 의 password 가져오기
         Schedule schedule = null;
+
         if (dto.getPassword().equals(password)) { //비밀번호 비교
             int updatedRow = scheduleRepository.updateSchedule(id, dto);
             if (updatedRow == 0) {
-                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Does not exist");
-            }
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Does not exist");}
             schedule = scheduleRepository.findScheduleByIdOrElseThrow(id);
         }
         return new ScheduleGetIdResponseDto(schedule);

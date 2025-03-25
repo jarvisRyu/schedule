@@ -4,7 +4,9 @@ import com.cordingrecipe.schedule.entity.Schedule;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
-import java.util.Date;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+
 
 @Getter
 @AllArgsConstructor
@@ -12,7 +14,7 @@ public class ScheduleGetIdResponseDto {
     private Long id;
     private String todo;
     private String name;
-    private Date updatedDate;
+    private String updatedDate;
 
 
     public ScheduleGetIdResponseDto(Schedule schedule) {

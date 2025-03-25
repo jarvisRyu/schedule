@@ -3,9 +3,9 @@ package com.cordingrecipe.schedule.entity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.data.annotation.Id;
+import org.w3c.dom.Text;
 
-import java.util.Date;
-
+import java.time.LocalDateTime;
 
 @Getter
 @AllArgsConstructor
@@ -16,8 +16,8 @@ public class Schedule {
     private String todo;
     private String name;
     private String password;
-    private Date createdDate;
-    private Date  updatedDate;
+    private String createdDate;
+    private String updatedDate;
 
 
 

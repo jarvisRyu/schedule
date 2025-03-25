@@ -1,3 +1,7 @@
+## ERD
+
+![image](https://github.com/user-attachments/assets/1c149909-2c41-4394-ba5a-fe44875132f3)
+
 
 ## API 명세서
 https://documenter.getpostman.com/view/43168025/2sAYkGLKCb

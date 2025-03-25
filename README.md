@@ -26,5 +26,6 @@
 ## API 명세서
 https://documenter.getpostman.com/view/43168025/2sAYkGLKCb
 
-![image](https://github.com/user-attachments/assets/1443c250-fbdf-47d3-bdc4-8a2705590a2d)
+![image](https://github.com/user-attachments/assets/7087c96f-2de7-4bdc-95e3-00c811c43021)
+
 

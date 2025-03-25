@@ -1,3 +1,20 @@
+# 🗓️일정관리 앱 API
+
+## 🛠️주요 기능
+* 일정 등록 
+* 전체 일정 조회
+* 이름 또는 날짜 기준 조회
+* 일정 단건 조회
+* 일정 수정 
+* 일정 삭제 
+
+## 작업환경
+* JAVA 17+
+* Spring Boot
+* dependencies : Lombok, Spring Web,Thyme
+
+
+
 ## ERD
 
 ![image](https://github.com/user-attachments/assets/3b512c72-a047-449c-a6da-0ec98fe82b11)

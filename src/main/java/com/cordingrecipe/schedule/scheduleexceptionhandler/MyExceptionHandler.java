@@ -1,4 +1,4 @@
-package com.cordingrecipe.schedule;
+package com.cordingrecipe.schedule.scheduleexceptionhandler;
 
 import jakarta.validation.ConstraintViolationException;
 import org.springframework.http.HttpStatus;

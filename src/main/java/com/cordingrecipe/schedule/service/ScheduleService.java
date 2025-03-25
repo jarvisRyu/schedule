@@ -1,6 +1,5 @@
 package com.cordingrecipe.schedule.service;
 
-import com.cordingrecipe.schedule.dto.request.ScheduleDeleteRequestDto;
 import com.cordingrecipe.schedule.dto.response.ScheduleGetAllResponseDto;
 import com.cordingrecipe.schedule.dto.request.ScheduleRequestDto;
 import com.cordingrecipe.schedule.dto.response.ScheduleGetIdResponseDto;
@@ -25,8 +24,6 @@ public interface ScheduleService {
 
 
 
-
-
     //단건
     ScheduleGetIdResponseDto findScheduleById(Long id);
 
@@ -36,7 +33,7 @@ public interface ScheduleService {
 
     //DELETE
     //일정 삭제
-    void deleteSchedule(Long id, ScheduleDeleteRequestDto dto);
+    void deleteSchedule(Long id, ScheduleRequestDto dto);
 
 
 

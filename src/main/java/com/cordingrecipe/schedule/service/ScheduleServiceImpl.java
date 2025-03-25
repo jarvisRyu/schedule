@@ -1,6 +1,5 @@
 package com.cordingrecipe.schedule.service;
 
-import com.cordingrecipe.schedule.dto.request.ScheduleDeleteRequestDto;
 import com.cordingrecipe.schedule.dto.response.ScheduleGetAllResponseDto;
 import com.cordingrecipe.schedule.dto.request.ScheduleRequestDto;
 import com.cordingrecipe.schedule.dto.response.ScheduleGetIdResponseDto;
@@ -8,7 +7,6 @@ import com.cordingrecipe.schedule.dto.response.ScheduleResponseDto;
 import com.cordingrecipe.schedule.entity.Schedule;
 import com.cordingrecipe.schedule.repository.ScheduleRepository;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -92,7 +90,7 @@ public class ScheduleServiceImpl implements ScheduleService {
 
     //일정삭제
     @Override
-    public void deleteSchedule(Long id, ScheduleDeleteRequestDto dto) {
+    public void deleteSchedule(Long id, ScheduleRequestDto dto) {
 
         String password = scheduleRepository.findScheduleByIdOrElseThrow(id).getPassword();
         //id의 패스워드

@@ -1,6 +1,5 @@
 package com.cordingrecipe.schedule.repository;
 
-import com.cordingrecipe.schedule.dto.request.ScheduleDeleteRequestDto;
 import com.cordingrecipe.schedule.dto.request.ScheduleRequestDto;
 import com.cordingrecipe.schedule.dto.response.ScheduleGetAllResponseDto;
 import com.cordingrecipe.schedule.dto.response.ScheduleResponseDto;
@@ -55,25 +54,22 @@ public class JdbcTemplateScheduleRepository implements ScheduleRepository {
     //일정 전체 조회
     @Override
     public List<ScheduleGetAllResponseDto> findAllSchedule() {
-        return jdbcTemplate.query("select id,todo,name,created_date,coalesce(updated_date,created_date)as updated_date from schedule order by created_date ", scheduleRowMapper());
+        return jdbcTemplate.query("select id,todo,name,created_date,coalesce(updated_date,created_date)as updated_date from schedule order by updated_date ", scheduleRowMapper());
     }
-
+    //이름,날짜조회
     @Override
     public List<ScheduleGetAllResponseDto> findScheduleByNameAndDate(String name, String date) {
         return jdbcTemplate.query("select id,todo,name,created_date,coalesce(updated_date,created_date)as updated_date from schedule where name=? AND DATE(updated_date)=? ", scheduleRowMapper(),name,date);
-
     }
-
+    //이름 조회
     @Override
     public List<ScheduleGetAllResponseDto> findScheduleByName(String name) {
-        return jdbcTemplate.query("select id,todo,name,created_date,coalesce(updated_date,created_date)as updated_date from schedule where name=? ", scheduleRowMapper(),name);
-
+        return jdbcTemplate.query("select id,todo,name,created_date,coalesce(updated_date,created_date)as updated_date from schedule where name=? order by updated_date  ", scheduleRowMapper(),name);
     }
-
+    //날짜 조회
     @Override
     public List<ScheduleGetAllResponseDto> findScheduleByDate(String date) {
-            return jdbcTemplate.query("select id,todo,name,created_date,coalesce(updated_date,created_date)as updated_date from schedule where DATE(updated_date) = ? order by created_date ", scheduleRowMapper(),date);
-
+        return jdbcTemplate.query("select id,todo,name,created_date,coalesce(updated_date,created_date)as updated_date from schedule where DATE(updated_date) = ? order by updated_date ", scheduleRowMapper(),date);
     }
 
     //일정 단건 조회
@@ -94,7 +90,7 @@ public class JdbcTemplateScheduleRepository implements ScheduleRepository {
     public int updateSchedule(Long id, ScheduleRequestDto dto) {
         return jdbcTemplate.update("update schedule set todo =?,name=? where id =?",dto.getTodo(),dto.getName(),id);
     }
-
+    //일정 삭제
     @Override
     public int deleteSchedule(Long id) {
         return jdbcTemplate.update("delete from schedule where id=?",id);

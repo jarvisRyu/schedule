@@ -24,9 +24,6 @@ public class JdbcTemplateScheduleRepository implements ScheduleRepository {
     //DB 에서 데이터를 주고받는 객체생성
     private final JdbcTemplate jdbcTemplate;
 
-    //    public JdbcTemplateScheduleRepository(JdbcTemplate jdbcTemplate) {
-//        this.jdbcTemplate = jdbcTemplate;
-//    }  이건 왜이렇게 안하고 ?
     public JdbcTemplateScheduleRepository(DataSource dataSource) {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
@@ -61,24 +58,18 @@ public class JdbcTemplateScheduleRepository implements ScheduleRepository {
     public List<ScheduleGetAllResponseDto> findScheduleByNameAndDate(String name, String date) {
         return jdbcTemplate.query("select id,todo,name,created_date,coalesce(updated_date,created_date)as updated_date from schedule where name=? AND DATE(updated_date)=? ", scheduleRowMapper(),name,date);
     }
-    //이름 조회
+    //이름으로 조회
     @Override
     public List<ScheduleGetAllResponseDto> findScheduleByName(String name) {
         return jdbcTemplate.query("select id,todo,name,created_date,coalesce(updated_date,created_date)as updated_date from schedule where name=? order by updated_date  ", scheduleRowMapper(),name);
     }
-    //날짜 조회
+    //날짜로 조회
     @Override
     public List<ScheduleGetAllResponseDto> findScheduleByDate(String date) {
         return jdbcTemplate.query("select id,todo,name,created_date,coalesce(updated_date,created_date)as updated_date from schedule where DATE(updated_date) = ? order by updated_date ", scheduleRowMapper(),date);
     }
 
     //일정 단건 조회
-//    @Override
-//    public Optional<ScheduleResponseDto> findScheduleById(Long id) {
-//        List<ScheduleResponseDto> result=jdbcTemplate.query("select * from schedule where id=? ",scheduleRowMapper2(),id);
-//        return result.stream().findAny();
-//    }
-    //단건 조회
     @Override
     public Schedule findScheduleByIdOrElseThrow(Long id) {
         List<Schedule> result=jdbcTemplate.query("select * from schedule where id=? ",scheduleRowMapper2(),id);

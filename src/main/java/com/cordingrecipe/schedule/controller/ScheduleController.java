@@ -17,7 +17,6 @@ import java.util.List;
 public class ScheduleController {
     //속성
     private final ScheduleService scheduleService; //서비스 의존 객체 생성
-
     //생성자
     public ScheduleController(ScheduleService scheduleService) { //서비스를 참조할 수 있게 생성자 만들기
         this.scheduleService = scheduleService;
@@ -28,7 +27,6 @@ public class ScheduleController {
     @PostMapping
     public ResponseEntity<ScheduleResponseDto> createSchedule(@RequestBody ScheduleRequestDto dto) {
         //Entity는 Map<key,value> 형태로 전달받을것임.               Json -> dto
-
         //Json -> Dto
         return new ResponseEntity<>(scheduleService.saveSchedule(dto), HttpStatus.CREATED);
     }
@@ -53,25 +51,22 @@ public class ScheduleController {
     //일정 단건조회
     @GetMapping("/{id}")
     public ResponseEntity<ScheduleGetIdResponseDto> findScheduleById(@PathVariable Long id) {
-
         return new ResponseEntity<>(scheduleService.findScheduleById(id), HttpStatus.OK);
-
     }
 
     //일정수정
     @Transactional
     @PatchMapping("/{id}")
-    public ResponseEntity<ScheduleGetIdResponseDto> updateSchedule(@PathVariable Long
-                                                                           id, @RequestBody ScheduleRequestDto dto) {
-
+    public ResponseEntity<ScheduleGetIdResponseDto> updateSchedule(@PathVariable Long id,
+                                                                   @RequestBody ScheduleRequestDto dto) {
         return new ResponseEntity<>(scheduleService.updateSchedule(id, dto), HttpStatus.OK);
     }
 
     //일정삭제
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteSchedule(@PathVariable Long id, @RequestBody ScheduleRequestDto dto) {
+    public ResponseEntity<Void> deleteSchedule(@PathVariable Long id,
+                                               @RequestBody ScheduleRequestDto dto) {
         scheduleService.deleteSchedule(id, dto);
-
         return new ResponseEntity<>(HttpStatus.OK);
 
     }

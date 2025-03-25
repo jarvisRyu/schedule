@@ -23,7 +23,7 @@ public class ScheduleServiceImpl implements ScheduleService {
         this.scheduleRepository = scheduleRepository;
     }
 
-    //일정생성
+    //일정 생성
     @Override
     public ScheduleResponseDto saveSchedule(ScheduleRequestDto dto) {
         Schedule schedule = new Schedule(dto.getTodo(), dto.getName(), dto.getPassword());
@@ -34,7 +34,7 @@ public class ScheduleServiceImpl implements ScheduleService {
 
 
 
-    //전체조회
+    //전체 조회
     @Override  //이름 또는 날짜 가있으면 다르게 로직
     public List<ScheduleGetAllResponseDto> findAllSchedule() {
 
@@ -57,7 +57,7 @@ public class ScheduleServiceImpl implements ScheduleService {
         return scheduleRepository.findScheduleByDate(date);
     }
 
-    //단건조회
+    //일정 단건 조회
     @Override
     public ScheduleGetIdResponseDto findScheduleById(Long id) {
         Schedule Schedule = scheduleRepository.findScheduleByIdOrElseThrow(id);
@@ -65,7 +65,7 @@ public class ScheduleServiceImpl implements ScheduleService {
         return new ScheduleGetIdResponseDto(Schedule);
     }
 
-    //일정수정
+    //일정 수정
     @Override
     public ScheduleGetIdResponseDto updateSchedule(Long id, ScheduleRequestDto dto) {
         if (dto.getPassword() == null || dto.getName() == null) {
@@ -88,7 +88,7 @@ public class ScheduleServiceImpl implements ScheduleService {
         return new ScheduleGetIdResponseDto(schedule);
     }
 
-    //일정삭제
+    //일정 삭제
     @Override
     public void deleteSchedule(Long id, ScheduleRequestDto dto) {
 

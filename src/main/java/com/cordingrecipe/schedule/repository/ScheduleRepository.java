@@ -13,14 +13,14 @@ public interface ScheduleRepository {
     //일정 전체조회
     List<ScheduleGetAllResponseDto> findAllSchedule();
 
-    //이름,날짜로 조회하기
+    //이름,날짜로 조회
     List<ScheduleGetAllResponseDto>findScheduleByNameAndDate(String name,String date);
-    //이름으로 조회하기
+    //이름으로 조회
     List<ScheduleGetAllResponseDto>findScheduleByName(String name);
-    //날짜로 조회하기
+    //날짜로 조회
     List<ScheduleGetAllResponseDto>findScheduleByDate(String date);
 
-    //id로 조회하기
+    //일정 단건 조회
     Schedule findScheduleByIdOrElseThrow(Long id);
 
     //일정 수정

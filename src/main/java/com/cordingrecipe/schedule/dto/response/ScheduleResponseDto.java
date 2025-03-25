@@ -4,9 +4,7 @@ import com.cordingrecipe.schedule.entity.Schedule;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
-import java.sql.Timestamp;
 import java.util.Date;
-
 
 @Getter
 @AllArgsConstructor
@@ -15,7 +13,6 @@ public class ScheduleResponseDto {
     private String todo;
     private String name;
     private Date createdDate;
-
 
 
     public ScheduleResponseDto(Schedule schedule) {

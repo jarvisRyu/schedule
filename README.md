@@ -11,7 +11,7 @@
 ## 🛠️작업 환경
 * JAVA 17+
 * Spring Boot
-* dependencies : Lombok, Spring Web,Thymeleaf
+* dependencies : Lombok, Spring Web,JdbcTemplate
 
 ## 📁 프로젝트 구조 
 ```
